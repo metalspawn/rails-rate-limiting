@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+# This block is required for a work around to a security flaw in Bundler
+# See: https://stackoverflow.com/questions/41454333/meaning-of-new-block-git-sourcegithub-in-gemfile/41454572#41454572
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
