@@ -10,6 +10,7 @@
 # Gemfile.lock, .ruby-version, .ruby-gemset
 /.bundle
 /vendor/bundle
+.rvmrc
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
