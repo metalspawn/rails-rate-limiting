@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.3.3'
 
 # This block is required for a work around to a security flaw in Bundler
 # See: https://stackoverflow.com/questions/41454333/meaning-of-new-block-git-sourcegithub-in-gemfile/41454572#41454572
