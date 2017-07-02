@@ -15,11 +15,12 @@ class Rack::Attack
     req.ip # unless req.path.start_with?('/assets')
   end
 
-  # Allow requests from localhost to avoid developer related problems
-  # Want to add this to .env to assist any custom clients or issues with staging testing etc.
-  safelist('allow from localhost') do |req|
+  # Split list of whitelisted ips
+  whitelist = (ENV['RATE_LIMIT_WHITELIST'] || '').split(/,\s*/)
+  # Allow requests from whitelist
+  safelist('allow from whitelist') do |req|
     # Requests are allowed if the return value is truthy
-    '127.0.0.1' == req.ip || '::1' == req.ip
+    whitelist.include?(req.ip)
   end
 
   Rack::Attack.throttled_response = lambda do |env|
