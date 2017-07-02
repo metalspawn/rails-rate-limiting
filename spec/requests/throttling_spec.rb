@@ -25,8 +25,8 @@ RSpec.describe 'Rate limiter', type: :request do
         expect(last_response.body).to include('1800')
       end
 
-      it 'does not thottle if a request occurs in the next hour' do
-        Timecop.travel(1801.seconds.from_now)
+      it 'does not throttle if a request occurs in the next hour' do
+        Timecop.travel(1800.seconds.from_now)
         get '/', {}, 'REMOTE_ADDR' => '1.2.3.4'
         expect(last_response).to show_allowed_response
       end
