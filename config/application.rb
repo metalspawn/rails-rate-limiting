@@ -13,5 +13,13 @@ module RailsRateLimiting
 
     # Inject RackAttack throttling middleware
     config.middleware.use Rack::Attack
+
+    # Configure Redis for Rails cache_store
+    config.cache_store = :redis_store, {
+      host: ENV['REDIS_HOST'],
+      port: ENV['REDIS_PORT'],
+      db: ENV['REDIS_DATABASE'],
+      namespace: ENV['REDIS_NAMESPACE']
+    }
   end
 end

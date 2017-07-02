@@ -32,6 +32,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+gem 'redis-rails'
 
 # Rack based throttling
 gem 'rack-attack'
@@ -46,8 +47,11 @@ group :development, :test do
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
   gem 'rspec-rails', '~> 3.5'
+  # When you need to manuiplate time...
   gem 'timecop'
   gem 'rack-test'
+  # To manage local environments
+  gem 'dotenv-rails'
 end
 
 group :development do
