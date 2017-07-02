@@ -11,7 +11,7 @@ class Rack::Attack
   # Throttle all requests by IP (100rph)
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip:#{req.ip}"
-  throttle('req/ip', :limit => 100, :period => 1.hour) do |req|
+  throttle('req/ip', limit: 100, period: 1.hour) do |req|
     req.ip # unless req.path.start_with?('/assets')
   end
 
@@ -25,8 +25,9 @@ class Rack::Attack
   Rack::Attack.throttled_response = lambda do |env|
     now = Time.now
     match_data = env['rack.attack.match_data']
-    seconds_remaining = (now + (match_data[:period] - now.to_i % match_data[:period])).to_s
-    [429, {}, ["Rate limit exceeded. Try again in #{seconds_remaining} seconds"]]
+    limit_reset = (now + (match_data[:period] - now.to_i % match_data[:period]))
+    diff = limit_reset.minus_with_coercion(now).round
+    [429, {}, ["Rate limit exceeded. Try again in #{diff} seconds"]]
   end
   # Rack::Attack.throttled_response = ->(env) { [429, {}, [ActionView::Base.new.render(file: 'public/429.html')]] }
 end

@@ -1,21 +1,35 @@
 require 'rails_helper'
 
-RSpec.describe "Rate limiter", type: :request do
+RSpec.describe 'Rate limiter', type: :request do
   include Rack::Test::Methods
   before(:each) { Rails.cache.clear } # Clear cache to avoid conflicting test state
 
-  describe "doesn't throttle within limit" do
-    before { 100.times{ get '/', {}, 'REMOTE_ADDR' => '1.2.3.4' } }
+  describe 'throttles excessive requests by IP address' do
+    before do
+      freezed_time = Time.utc(2017, 1, 1, 12, 30, 0)
+      Timecop.freeze(freezed_time)
+      request_count.times{ get '/', {}, 'REMOTE_ADDR' => '1.2.3.4' }
+    end
 
-    it { expect(last_response.status).to eq(200) }
-    it { expect(last_response.body).to match("Ok") }
+    context 'when the number of requests is lower than the limit' do
+      let(:request_count) { 100 }
+      it { expect(last_response).to show_allowed_response }
+    end
+
+    context 'when the number of requests is higher than the limit' do
+      let(:request_count) { 101 }
+
+      it { expect(last_response).to show_throttled_response }
+
+      it 'shows the time remaining in the body' do
+        expect(last_response.body).to include('1800')
+      end
+
+      it 'does not thottle if a request occurs in the next hour' do
+        Timecop.travel(1801.seconds.from_now)
+        get '/', {}, 'REMOTE_ADDR' => '1.2.3.4'
+        expect(last_response).to show_allowed_response
+      end
+    end
   end
-
-  describe "throttles after 100 requests from the same IP within the hour" do
-    before { 101.times{ get '/', {}, 'REMOTE_ADDR' => '1.2.3.4' } }
-
-    it { expect(last_response.status).to eq(429) }
-    it { expect(last_response.body).to include("Rate limit exceeded") }
-  end
-
 end
