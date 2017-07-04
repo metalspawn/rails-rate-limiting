@@ -8,7 +8,7 @@ This project uses Rails 5 and Ruby 2.3.3. See the [Gemfile](https://github.com/m
 The project uses Rspec for the test suite. Please run `rspec` from the command line once all the gems are installed and Redis configured to see the test results.
 
 # Stylistic Notes
-There was a decision to be made about the identity of the user. In this case I have chosen IP address but if it were for an API for instance, an identifying user property in the request header would be more useful. The solution present can facilitate this will little work.
+There was a decision to be made about the identity of the user. In this case I have chosen IP address but if it were for an API for instance, an identifying user property in the request header would be more useful. The solution present can facilitate this with little work.
 
 The project spec also called for 'rate limiting on this controller', referring to the home controller. This implementation limits requests to the whole app (and therefore that controller) but could easily be configured to rate limit on a subset of paths.
 
