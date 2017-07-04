@@ -30,5 +30,4 @@ class Rack::Attack
     diff = limit_reset.minus_with_coercion(now).round
     [429, {}, ["Rate limit exceeded. Try again in #{diff} seconds"]]
   end
-  # Rack::Attack.throttled_response = ->(env) { [429, {}, [ActionView::Base.new.render(file: 'public/429.html')]] }
 end
