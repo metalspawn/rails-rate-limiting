@@ -2,7 +2,7 @@
 This is a simple example of adding rate limiting to rails project. There are numerous areas for customisation depending on what the ultimate use case is. The project serves to demonstrate some of those possibilities and provide a base from which to develop further.
 
 # Installation
-This project uses Rails 5 and Ruby 2.3.3. See the [Gemfile](https://github.com/metalspawn/rails-rate-limiting/blob/master/Gemfile).
+This project uses Rails 5 and Ruby 2.3.3. See the [Gemfile](https://github.com/metalspawn/rails-rate-limiting/blob/master/Gemfile) for more info.
 You will need to install or have access to a Redis database for caching, the connection is configured via a .env file. See [.env.example](https://github.com/metalspawn/rails-rate-limiting/blob/master/.env.example).
 
 # Stylistic Notes
