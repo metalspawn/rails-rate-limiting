@@ -47,7 +47,7 @@ RSpec.describe 'Rate limiter', type: :request do
       freezed_time = Time.utc(2017, 1, 1, 12, 30, 0)
       Timecop.freeze(freezed_time)
       51.times{ get '/', {}, 'REMOTE_ADDR' => '1.2.3.5' }
-    end 
+    end
 
     context 'when limited to 50 request per 15 minutes' do
       it 'throttles when the number of requests when reached' do
