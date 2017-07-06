@@ -6,6 +6,7 @@ RSpec.describe 'Rate limiter', type: :request do
 
   describe 'throttles excessive requests by IP address' do
     before do
+      RateLimiter.whitelist = ['1.2.3.4']
       freezed_time = Time.utc(2017, 1, 1, 12, 30, 0)
       Timecop.freeze(freezed_time)
       request_count.times{ get '/', {}, 'REMOTE_ADDR' => ip }
@@ -18,7 +19,7 @@ RSpec.describe 'Rate limiter', type: :request do
     end
 
     context 'when the IP is whitelisted' do
-      let(:request_count) { 100 }
+      let(:request_count) { 101 }
       let(:ip) { '1.2.3.4' }
       it { expect(last_response).to show_allowed_response }
     end
