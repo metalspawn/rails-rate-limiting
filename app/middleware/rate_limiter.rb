@@ -20,18 +20,6 @@ class RateLimiter
     end
   end
 
-  def limit
-    self.class.limit
-  end
-
-  def period
-    self.class.period
-  end
-
-  def whitelist
-    self.class.whitelist
-  end
-
   def initialize(app)
     @app = app
   end
@@ -65,11 +53,24 @@ class RateLimiter
     time_key = now / period # nth number of periods since the epoch
     expires_in = (period - (now % period)) # Determine the remaining seconds for the period
     cache_key = "#{req.ip}-count::#{time_key}"
-    req.env['rate_limiter.remaining_time'] = expires_in 
+    req.env['rate_limiter.remaining_time'] = expires_in
     Rails.cache.increment(cache_key, 1, expires_in: expires_in)
   end
 
   def respond_rate_limited(env)
     [429, {}, ["Rate limit exceeded. Try again in #{env['rate_limiter.remaining_time']} seconds"]]
+  end
+
+  # Class instance variable helper accessors
+  def limit
+    self.class.limit
+  end
+
+  def period
+    self.class.period
+  end
+
+  def whitelist
+    self.class.whitelist
   end
 end
