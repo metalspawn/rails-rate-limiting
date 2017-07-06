@@ -13,7 +13,7 @@ RSpec.describe 'Rate limiter', type: :request do
 
     context 'when the number of requests is lower than the limit' do
       let(:request_count) { 100 }
-      let(:ip) { '1.2.3.4' }
+      let(:ip) { '1.2.3.5' }
       it { expect(last_response).to show_allowed_response }
     end
 
@@ -35,7 +35,7 @@ RSpec.describe 'Rate limiter', type: :request do
 
       it 'does not throttle if a request occurs in the next hour' do
         Timecop.travel(1800.seconds.from_now)
-        get '/', {}, 'REMOTE_ADDR' => '1.2.3.4'
+        get '/', {}, 'REMOTE_ADDR' => '1.2.3.5'
         expect(last_response).to show_allowed_response
       end
     end
