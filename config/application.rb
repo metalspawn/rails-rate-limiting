@@ -11,9 +11,6 @@ module RailsRateLimiting
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
 
-    # Inject RackAttack throttling middleware
-    config.middleware.use Rack::Attack
-
     # Configure Redis for Rails cache_store
     config.cache_store = :redis_store, {
       host: ENV['REDIS_HOST'],

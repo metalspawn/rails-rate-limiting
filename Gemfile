@@ -35,9 +35,6 @@ gem 'jbuilder', '~> 2.5'
 # Includes 'redis' itself
 gem 'redis-rails'
 
-# Rack based throttling
-gem 'rack-attack'
-
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
