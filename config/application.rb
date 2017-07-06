@@ -1,5 +1,5 @@
 require_relative 'boot'
-
+require_relative '../app/middleware/rate_limiter'
 require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
@@ -10,6 +10,9 @@ module RailsRateLimiting
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
+
+    # Inject rate limiting middleware
+    config.middleware.use RateLimiter
 
     # Configure Redis for Rails cache_store
     config.cache_store = :redis_store, {
