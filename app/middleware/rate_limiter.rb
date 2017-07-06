@@ -1,12 +1,14 @@
 class RateLimiter
+
   def initialize(app)
     @app = app
   end
 
   def call(env)
-    if whitelisted?(env)
+    req = Rack::Request.new(env)
+    if whitelisted?(req)
       @app.call(env)
-    elsif rate_limited?(env)
+    elsif rate_limited?(req)
       respond_rate_limited(env)
     else
       @app.call(env)
@@ -17,11 +19,13 @@ class RateLimiter
     [429, {}, ['Rate limit exceeded. Try again in [n] seconds']]
   end
 
-  def whitelisted?(env)
-    false
+  class << self; attr_accessor :whitelist end
+  def whitelisted?(req)
+    self.class.whitelist.include?(req.ip)
   end
 
-  def rate_limited?(env)
+  def rate_limited?(req)
     true
+    # rate_limiting_rules.any?{|rule| rule.match?(env)}
   end
 end
