@@ -12,6 +12,6 @@ There was a decision to be made about the identity of the user. In this case I h
 
 The project spec also called for 'rate limiting on this controller', referring to the home controller. This implementation limits requests to the whole app (and therefore that controller) but could easily be configured to rate limit on a subset of paths.
 
-These customisations were part of the criteria for selecting a library to use, basic notes on that research can be found here: https://github.com/metalspawn/rails-rate-limiting/issues/4
+These customisations were part of the criteria for selecting a library to use, basic notes on that research can be found here: https://github.com/metalspawn/rails-rate-limiting/issues/4. However, upon further direction a custom solution was implemented, see [#12](https://github.com/metalspawn/rails-rate-limiting/issues/12).
 
 There are also excessive comments left from the rails default project generation scripts. For a 'production' quality project I would usually clean this up, including extra gems (sqllite is not being used for instance) but I suspect the point of the task was centred around the coding decisions and the testing of the rate limiter.
